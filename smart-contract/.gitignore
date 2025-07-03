@@ -1,0 +1,34 @@
+# Node modules - ignore all node_modules directories
+node_modules/
+**/node_modules/
+
+# Hardhat artifacts
+artifacts/
+cache/
+coverage/
+
+# dotenv environment variables
+.env
+.env.*
+
+# Logs
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+
+# OS generated files
+.DS_Store
+Thumbs.db
+
+# Build output
+build/
+dist/
+
+# IDEs
+.vscode/
+.idea/
+
+# Frontend
+**/node_modules/
+**/.env
+**/.env*
