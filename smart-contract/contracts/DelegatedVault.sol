@@ -7,7 +7,7 @@ import "@openzeppelin/contracts/token/ERC20/IERC20.sol";
 
 contract DelegatedVault is Ownable, ReentrancyGuard {
     // Hedera USDC Token ID
-    address public constant HEDERA_USDC = address(0x0000000000000000000000000000000000167f6a);
+    address public constant HEDERA_USDC = address(0x0000000000000000000000000000000000001549);
     
     // Hedera Token Service
     address public constant HEDERA_TOKEN_SERVICE = address(0x0000000000000000000000000000000000167f6a);
