@@ -4,6 +4,8 @@ from typing import Optional, Tuple, Union
 import numpy as np
 import pandas as pd
 from sqlalchemy.orm import Session
+from sqlalchemy.sql import text
+from db.connection import get_session
 from db.models.order import Order as OrderModel
 from db.models.trade import Trade as TradeModel
 import ulid
@@ -11,7 +13,6 @@ import ulid
 import warnings
 
 warnings.filterwarnings('ignore')
-
 
 class OrderPlan():
     def __init__(self, action:str, side:str, pair:list, **kwargs) -> None:
@@ -232,7 +233,7 @@ class TradingBot():
     def __init__(self, id:str, tokens=[], currency:str='USDT', call_budget:float=5, invest_amount:float=10_000,
             balance:float=None, broker: BaseBroker = None, category:str='spot', strategy:Strategy=None, 
             default_order_timeout:float = 60*15, db:Session=None, notif_on:bool = True, **kwargs) -> None:
-        self.id = id
+        self.load_create_bot(id)
         self.tokens = tokens if tokens is not None else []  # Safe initialization
         if currency in self.tokens:
             self.tokens.remove(currency)
@@ -263,7 +264,7 @@ class TradingBot():
         self.order_queue = []
         self.default_order_timeout = default_order_timeout
         self.notif_on:bool = bool(notif_on)  # whether to send notifications about trades
-
+     
     def write_order(self, order: Order) -> None:
         """
         Write order to database or update existing order
@@ -287,8 +288,8 @@ class TradingBot():
                     type=order.type,
                     create_time=order.create_time,
                     filled_time=order.filled_time,
-                    broker_tx=getattr(order, 'broker_tx', None),
-                    broker_link=getattr(order, 'broker_link', None)
+                    tx=getattr(order, 'tx', None),
+                    tx_link=getattr(order, 'tx_link', None)
                 )
             else:
                 # Create new order in DB
@@ -304,8 +305,8 @@ class TradingBot():
                     type=order.type,
                     create_time=order.create_time,
                     filled_time=order.filled_time,
-                    broker_tx=getattr(order, 'broker_tx', None),
-                    broker_link=getattr(order, 'broker_link', None)
+                    tx=getattr(order, 'tx', None),
+                    tx_link=getattr(order, 'tx_link', None)
                 )
         except Exception as e:
             print(f"Error writing order to database: {e}")
@@ -368,10 +369,38 @@ class TradingBot():
         # remove all order and trade have bot id and write new
         pass
 
-    def load_state(self, id) -> None:
+    def load_state(self, id) -> 'TradingBot':
         # todo: [unnecessary - do if have free time]
         # load state from DB
-        pass
+        db = get_session()
+        bots = db.execute(text(f"""
+            SELECT id, balance, invested_money FROM trade_bot.bots WHERE id = '{id}'
+        """))
+        bot = None
+        for bot in bots:
+            pass
+        if bot:
+            self.id = bot.id
+            return self
+        else:
+            return None
+
+    def load_create_bot(self, id):
+        # load or create bot state from DB
+        bot = self.load_state(id)
+        if not bot:
+            # create bot state in DB
+            db = get_session()
+            res = db.execute(text(f"""
+            INSERT INTO trade_bot.bots (id, balance, invested_money) VALUES ('{id}', 0, 0)
+            """))
+            db.commit()
+            db.close()
+            print(f"Bot {id} created")
+            return self
+        else:
+            print(f"Bot {id} loaded")
+            return self
 
     def update_balance(self):
         """ Check the balance of the bot

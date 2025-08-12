@@ -1,0 +1,10 @@
+.venv
+*.db
+ecosystem.config.*
+.env
+
+__pycache__*
+
+logs/*
+test*
+configs/*

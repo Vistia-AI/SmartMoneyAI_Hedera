@@ -1,0 +1,24 @@
+{
+
+  "localnet": {
+    "token1": "0x5FbDB2315678afecb367f032d93F642f64180aa3",
+    "token2": "0xa82fF9aFd8f496c3d6ac40E2a0F282E47488CFc9",
+    "runTimestamp": 300,
+    "stopTimestamp": 360,
+    "maxShareholders": 5
+  },
+  "testnet": {
+    "token1": "0x0000000000000000000000000000000000003ad2",
+    "token2": "0x0000000000000000000000000000000000003ad3",
+    "runTimestamp": 300,
+    "stopTimestamp": 360,
+    "maxShareholders": 5
+  },
+  "mainnet": {
+    "token1": "0x000000000000000000000000000000000006f89a",
+    "token2": "0x0000000000000000000000000000000000163B5a",
+    "runTimestamp": 300,
+    "stopTimestamp": 360,
+    "maxShareholders": 50
+  }
+} 
