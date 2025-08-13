@@ -1,0 +1,28 @@
+<svg width="32" height="32" viewBox="0 0 32 32" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <!-- Background -->
+  <rect width="32" height="32" rx="8" fill="url(#gradient)" />
+  
+  <!-- Scan frame corners -->
+  <path d="M4 4h4v2H6v2H4V4z" fill="white" />
+  <path d="M24 4h4v4h-2V6h-2V4z" fill="white" />
+  <path d="M4 24h2v2h2v2H4v-4z" fill="white" />
+  <path d="M26 24h2v4h-4v-2h2v-2z" fill="white" />
+  
+  <!-- Document with V -->
+  <rect x="12" y="10" width="8" height="10" rx="1" fill="white" />
+  <path d="M18 10l2 2v-2h-2z" fill="#E5E7EB" />
+  <text x="16" y="18" text-anchor="middle" fill="#7C3AED" font-size="8" font-weight="bold">V</text>
+  
+  <!-- AI dots -->
+  <circle cx="14" cy="24" r="1" fill="white" />
+  <circle cx="16" cy="24" r="1" fill="white" />
+  <circle cx="18" cy="24" r="1" fill="white" />
+  
+  <!-- Gradient definition -->
+  <defs>
+    <linearGradient id="gradient" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#7C3AED" />
+      <stop offset="100%" stop-color="#3B82F6" />
+    </linearGradient>
+  </defs>
+</svg>
