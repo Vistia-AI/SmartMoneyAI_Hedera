@@ -4,6 +4,11 @@
 
 The Vault contract is a configurable DeFi vault that manages token deposits, withdrawals, and manager operations based on timestamps. It implements a time-based lifecycle with three main phases: **Deposit Phase**, **Run Phase**, and **Withdrawal Phase**. The vault supports dual tokens: **token1** for deposits and **token2** for manager operations.
 
+## Deploy address:
+**Mainnet Deployment Address:**  
+`0xea316d96f85e662aa7e213a900a87dbddfcbe99a`  
+[View on HashScan](https://hashscan.io/mainnet/account/0.0.9589598)
+
 ## Contract Features
 
 - **Time-based phases** with configurable timestamps
