@@ -14,7 +14,7 @@ The Vault contract is a configurable DeFi vault that manages token deposits, wit
 
 - **Time-based phases** with configurable timestamps
 - **Share-based system** for proportional token distribution
-- **Manager operations** for calling any address
+- **Manager operations** for manager vault
 - **Dual token support** (token1 for deposits, token2 for operations)
 - **Emergency functions** for token recovery
 - **Reentrancy protection** for security
@@ -44,7 +44,7 @@ The Vault contract is a configurable DeFi vault that manages token deposits, wit
 | `runTimestamp` | `uint256` | Timestamp when deposits close and manager operations begin |
 | `stopTimestamp` | `uint256` | Timestamp when withdrawals are enabled |
 | `maxShareholders` | `uint256` | Maximum number of shareholders allowed |
-| `manager` | `address` | Manager address that can call any address |
+| `manager` | `address` | Manager address that can manager vault |
 | `shares` | `mapping(address => uint256)` | Mapping of shareholder address to their share amount |
 | `shareholders` | `address[]` | Array of all shareholders |
 | `totalShares` | `uint256` | Total shares issued |
@@ -151,7 +151,7 @@ vault.updateVault(
 
 **Function**: `execute(address target, bytes calldata data)`
 
-**Description**: Manager can call any address (only after run timestamp).
+**Description**: Manager can manager vault (only after run timestamp).
 
 **Requirements**:
 - Only manager can call
@@ -169,7 +169,7 @@ vault.updateVault(
 
 **Example Usage**:
 ```solidity
-// Call any contract
+// Call contract
 bytes memory data = abi.encodeWithSignature("someFunction(uint256)", 123);
 vault.execute(targetContract, data);
 ```
@@ -272,7 +272,7 @@ console.log("Shares received:", shares.toString());
 
 **What happens**:
 - Deposits are automatically closed when `runTimestamp` is reached
-- Manager can now call any address using the `execute` function
+- Manager can now call manager vault using the `execute` function try increase vault balance
 - No more deposits allowed
 
 **Check status**:
@@ -285,12 +285,12 @@ console.log("Deposits closed:", state.depositsClosed);
 
 **What happens**:
 - After `runTimestamp`, the Manager can execute operations using token2
-- Manager can call any contract or address using the `execute` function
+- Manager can call contract using the `execute` function
 - Manager should try to increase the vault's token1 balance through trading operations
 
 **Manager Operations**:
 ```javascript
-// Manager can execute any contract call
+// Manager can execute contract call
 const swapData = abi.encodeWithSignature("swap(uint256,uint256)", amountIn, amountOutMin);
 await vault.execute(dexAddress, swapData);
 ```
@@ -374,7 +374,7 @@ print("Withdrawal amount:", withdrawal_amount)
 |-------|-------------|
 | `Deposited` | Emitted when tokens are deposited |
 | `Withdrawn` | Emitted when tokens are withdrawn |
-| `ManagerCall` | Emitted when manager calls any address |
+| `ManagerCall` | Emitted when manager calls execute |
 | `DepositsClosed` | Emitted when deposits are closed |
 | `VaultUpdated` | Emitted when vault is updated |
 | `VaultClosed` | Emitted when vault is closed |
@@ -405,9 +405,9 @@ The contract uses custom errors and require statements for validation:
 
 During the run phase (after `runTimestamp`), the Manager can:
 
-1. **Execute any contract calls** using the `execute` function
+1. **Execute contract calls** using the `execute` function
 2. **Trade token2 for token1** to increase vault value
-3. **Interact with DEXs, lending protocols, or any other contracts**
+3. **Interact with DEXs, lending protocols**
 4. **Manage the vault's token2 balance** through various strategies
 
 ### Withdrawal Preparation
